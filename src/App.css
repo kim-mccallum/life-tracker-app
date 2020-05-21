@@ -1,0 +1,34 @@
+body * {
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  color: #1c1a17;
+  font-family: "Quicksand", sans-serif;
+}
+
+.app-nav {
+  height: 100vh;
+  position: absolute;
+  background-color: #262626;
+  overflow-x: hidden;
+  padding-top: 20px;
+  color: #dfdac6;
+}
+
+.app-nav {
+  right: 0;
+  width: 150px;
+  max-width: 0;
+  transition: max-width 1s;
+  left: unset;
+  top: 80px;
+  z-index: 1500;
+}
+
+#active {
+  max-width: 150px;
+}
