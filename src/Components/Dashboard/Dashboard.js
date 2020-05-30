@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Chart from "chart.js";
 import moment from "moment";
 import STORE from "../../STORE";
+import "./Dashboard.css";
 
 export default class Dashboard extends Component {
   state = {
@@ -9,7 +10,7 @@ export default class Dashboard extends Component {
   };
   // FETCH DATA IN HERE
   componentDidMount() {
-    //   grab the canvas and getContext
+    //  grab the canvas and getContext
     let ctx = document.getElementById("dashboard-chart").getContext("2d");
     let myChart = new Chart(ctx, {
       type: "bar",
@@ -58,7 +59,7 @@ export default class Dashboard extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="chart-container">
         <canvas id="dashboard-chart"></canvas>
       </div>
     );

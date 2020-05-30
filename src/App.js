@@ -8,9 +8,16 @@ import SignUp from "./Components/SignUp/SignUp";
 import JournalSetupForm from "./Components/JournalSetupForm/JournalSetupForm";
 import JournalEntryForm from "./Components/JournalEntryForm/JournalEntryForm";
 import "./App.css";
-import STORE from "./STORE";
 
 export default class App extends Component {
+  // just authentication here
+  state = {
+    // after sign in, this will be changed with callback props
+    isAuth: false,
+    error: false,
+    authLoading: false,
+  };
+
   render() {
     let routes = (
       <Switch>
