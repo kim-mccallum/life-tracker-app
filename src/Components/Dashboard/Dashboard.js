@@ -16,7 +16,8 @@ export default class Dashboard extends Component {
       type: "bar",
       data: {
         // REPLACE WITH STATE
-        labels: STORE.dates,
+        // convert dates to short format
+        labels: STORE.dates.map((dt) => moment(dt).format("L")),
         datasets: [
           {
             label: "Exercise",
@@ -58,9 +59,18 @@ export default class Dashboard extends Component {
     });
   }
   render() {
+    // const datesFormatted = STORE.dates.map((dt) => moment(dt).format("L"));
+    // console.log(datesFormatted);
     return (
-      <div className="chart-container">
-        <canvas id="dashboard-chart"></canvas>
+      <div className="dashboard-container">
+        <div class="btn-group">
+          <button>1 Month</button>
+          <button>3 Months</button>
+          <button>All Time</button>
+        </div>
+        <div className="chart-container">
+          <canvas id="dashboard-chart"></canvas>
+        </div>
       </div>
     );
   }
