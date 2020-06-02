@@ -6,9 +6,12 @@ export default function Landing() {
   return (
     <form className="form-container">
       <p>
-        Welcome to the big picture life tracker. This is an interactive journal
-        application to help you find insight into how your habits affect your
-        happiness, performance and well... whatever you want to track!
+        Welcome to Life Logger. This custom journal application is designed to
+        help you see the big picture and stop 'losing the forest for the trees'.
+        Make daily logs of habits and metrics habits related to your individual
+        goals and Life Logger will help you find insight into how your habits
+        and activities affect your happiness, performance or... whatever you
+        want to track!
       </p>
       <NavLink to={`/login`}>
         <button>Sign in</button>
