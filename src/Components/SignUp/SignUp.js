@@ -6,6 +6,7 @@ import { NavLink } from "react-router-dom";
 export default class SignUp extends Component {
   state = {
     // form validation stuff in here
+    // make sure that passwords match, etc.
   };
   changeHandler = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -13,6 +14,12 @@ export default class SignUp extends Component {
   submitHandler = (e) => {
     e.preventDefault();
     // callback prop to make the fetch - This will send the state to the backend to create a token and pass it work
+    const { userName, password, email } = this.state;
+    this.props.signup({
+      userName,
+      password,
+      email,
+    });
   };
 
   render() {
@@ -21,10 +28,10 @@ export default class SignUp extends Component {
         {/* text instructions and a go back button */}
         <p>Use the form below to create a new account.</p>
         <form onSubmit={this.submitHandler}>
-          <label htmlFor="user-name">Username</label>
+          <label htmlFor="userName">Username</label>
           <input
             type="text"
-            name="user-name"
+            name="userName"
             required
             placeholder="user name"
             onChange={this.changeHandler}
@@ -32,6 +39,7 @@ export default class SignUp extends Component {
           <label htmlFor="email">Email</label>
           <input
             type="email"
+            name="email"
             required
             placeholder="email address"
             onChange={this.changeHandler}

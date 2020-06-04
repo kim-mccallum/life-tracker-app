@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { NavLink } from "react-router-dom";
 import { faAlignLeft } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SideNav from "../../Components/SideNav/SideNav";
@@ -17,6 +18,17 @@ export default class Banner extends Component {
   };
 
   render() {
+    const menu = this.props.isAuth ? (
+      <FontAwesomeIcon
+        className="menu-icon"
+        icon={faAlignLeft}
+        onClick={this.sideNavHandler}
+      />
+    ) : (
+      <NavLink to={`/login`} className="login-link">
+        Login
+      </NavLink>
+    );
     return (
       <>
         <div className="banner">
@@ -24,11 +36,12 @@ export default class Banner extends Component {
             <img className="logo" src={logo} alt="trees logo" />
           </figure>
           <h1 className="app-name">Life Logger</h1>
-          <FontAwesomeIcon
+          {menu}
+          {/* <FontAwesomeIcon
             className="menu-icon"
             icon={faAlignLeft}
             onClick={this.sideNavHandler}
-          />
+          /> */}
         </div>
         <SideNav toggleMenu={this.state.sideNavVisible} />
       </>

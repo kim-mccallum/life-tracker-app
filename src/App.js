@@ -13,9 +13,20 @@ export default class App extends Component {
   // just authentication here
   state = {
     // after sign in, this will be changed with callback props
-    isAuth: false,
+    // SET THIS BACK TO false
+    isAuth: true,
     error: false,
     authLoading: false,
+  };
+  // SIGN UP FUNCTION - TO BE PASSED TO THE SIGNUP COMPONENT - THIS IS THE FETCH TO THE SIGNUP ENDPOINT
+  signup = (formData) => {
+    // Just get the data for the fetch
+    console.log(formData);
+    // fetch from the api/users/signup endpoint
+  };
+
+  login = (formData) => {
+    console.log(formData);
   };
 
   render() {
@@ -23,8 +34,18 @@ export default class App extends Component {
       <Switch>
         {/* A BUNCH OF SWITCH STATEMENTS TO RENDER DIFFERENT COMPONENTS ACCORDING TO THE ROUTE? */}
         <Route exact path="/" component={Landing} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/sign-up" component={SignUp} />
+        <Route
+          exact
+          path="/login"
+          render={() => <Login login={this.login} />}
+        />
+        <Route
+          exact
+          path="/sign-up"
+          render={(routeProps) => (
+            <SignUp signup={this.signup} {...routeProps} />
+          )}
+        />
         <Route exact path="/journal-setup" component={JournalSetupForm} />
         <Route exact path="/journal-entry" component={JournalEntryForm} />
         {/* fetch the data in the dashboard component! */}
@@ -33,7 +54,8 @@ export default class App extends Component {
     );
     return (
       <div className="App">
-        <Banner />
+        {/* PASS ISAUTH FOR CONDITIONAL RENDERING */}
+        <Banner isAuth={this.state.isAuth} />
         {routes}
       </div>
     );

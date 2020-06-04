@@ -1,102 +1,103 @@
 import React, { Component } from "react";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./JournalSetupForm.css";
 
 export default class JournalSetupForm extends Component {
   state = {
     // form validation stuff in here
+    habitNum: 1,
   };
   changeHandler = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
+  // THIS NEEDS TO BE PASSED BACK TO APP
   submitHandler = (e) => {
     e.preventDefault();
     // callback prop to make the fetch - This will send the state to the backend to create a token and pass it work
   };
+  // add a habit but only up to 3
+  addHabitHandler = (e) => {
+    if (this.state.habitNum < 3) {
+      this.setState((state) => {
+        return { habitNum: state.habitNum + 1 };
+      });
+    }
+  };
   render() {
     return (
       <div className="journal-setup-container">
-        <h2>Journal Setup</h2>
+        <h2>Log Setup</h2>
         <p className="journal-setup-instructions">
-          Choose the metrics that you would like to track. You can specify up to
-          3 metrics. Metrics can be quantitative or qualitative. Use the
-          description field to code qualitative values.
+          Start by specifying a target lifestyle factor that you would like to
+          track then choose up to 3 habits that you believe affect or support
+          this target goal. Your targets and habits will be used to build your
+          daily journal and tracking these over time will provide insight and
+          help you reach your goals!
         </p>
         <form className="journal-setup-form" onSubmit={this.submitHandler}>
           <fieldset>
-            <legend>Question 1.</legend>
-            <label htmlFor="metric-1">Metric</label>
+            <legend>
+              Health, wellness or performance factor you want to change
+            </legend>
+            <label htmlFor="target">Target</label>
             <input
               type="text"
-              name="metric-1"
+              name="target"
               required
-              placeholder="E.g., exercise"
+              placeholder="E.g., blood pressure"
               onChange={this.changeHandler}
             ></input>
-            <label for="m1-type">Type:</label>
-            <select name="m1-type">
-              <option value="numeric">Numeric</option>
-              <option value="quality">Qualitative</option>
+            <label htmlFor="target-type">Type:</label>
+            <select name="target-type">
+              <option value="numeric">Number</option>
+              <option value="binary">Yes/No</option>
+              <option value="score-1-3">Score: 1-3</option>
+              <option value="score-1-5">Score: 1-5</option>
             </select>
-            <label for="m1-desc">Description:</label>
+            <label htmlFor="target-units">Description:</label>
             <input
               type="text"
-              name="m1-desc"
+              name="target-units"
               required
-              placeholder="minutes of aerobic exercise."
+              placeholder="mmHg"
+              onChange={this.changeHandler}
+            ></input>
+            <label htmlFor="note">Description:</label>
+            <input
+              type="text"
+              name="note"
+              required
+              placeholder="taken first thing in the am"
               onChange={this.changeHandler}
             ></input>
           </fieldset>
 
           <fieldset>
-            <legend>Question 2.</legend>
-            <label htmlFor="metric-2">Metric</label>
+            <legend>Supporting Habits</legend>
+            <label htmlFor="habit-1">Habit</label>
             <input
               type="text"
-              name="metric-2"
+              name="habit-1"
               required
-              placeholder="Caffeine consumptions"
+              placeholder="No caffeine"
               onChange={this.changeHandler}
             ></input>
-            <label for="m2-type">Type:</label>
-            <select name="m2-type">
-              <option value="numeric">Numeric</option>
-              <option value="quality">Qualitative</option>
-            </select>
-            <label for="m2-desc">Description:</label>
+            <label htmlFor="habit-1">Note</label>
             <input
               type="text"
-              name="m2-desc"
+              name="habit-1"
               required
-              placeholder="1=yes, 0=no"
+              placeholder="dark chocolate excluded"
               onChange={this.changeHandler}
             ></input>
           </fieldset>
-
-          <fieldset>
-            <legend>Question 3.</legend>
-            <label htmlFor="metric-3">Metric</label>
-            <input
-              type="text"
-              name="metric-3"
-              required
-              placeholder="sleep quality"
-              onChange={this.changeHandler}
-            ></input>
-            <label for="m3-type">Type:</label>
-            <select name="m3-type">
-              <option value="numeric">Numeric</option>
-              <option value="quality">Qualitative</option>
-            </select>
-            <label for="m3-desc">Description:</label>
-            <input
-              type="text"
-              name="m3-desc"
-              required
-              placeholder="1=poor, 2=ok, 3=good"
-              onChange={this.changeHandler}
-            ></input>
-          </fieldset>
-          <button type="submit">Create journal</button>
+          <FontAwesomeIcon
+            className="add-habit-btn"
+            icon={faPlus}
+            onClick={this.addHabitHandler}
+          />
+          <button type="submit">Create Daily Log</button>
         </form>
       </div>
     );

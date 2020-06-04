@@ -12,6 +12,11 @@ export default class Login extends Component {
   submitHandler = (e) => {
     e.preventDefault();
     // figure out how to submit this later
+    const { userName, password } = this.state;
+    this.props.login({
+      userName,
+      password,
+    });
   };
   render() {
     return (
@@ -21,10 +26,10 @@ export default class Login extends Component {
             Sign in to your account. If you just want to check out the app, feel
             free to sing in with the provided demo account to look around.
           </p>
-          <label htmlFor="user-name">Username</label>
+          <label htmlFor="userName">Username</label>
           <input
             type="text"
-            name="user-name"
+            name="userName"
             required
             placeholder="user name"
             onChange={this.changeHandler}
