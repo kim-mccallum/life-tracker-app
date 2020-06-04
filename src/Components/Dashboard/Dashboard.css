@@ -7,35 +7,20 @@
   background-color: #ebeced;
   border: 1px solid black;
 }
-
-.btn-group button {
-  background-color: #22a2ad; /* Green background */
-  border: 1px solid #20626e; /* Green border */
-  color: white; /* White text */
-  padding: 8px 20px; /* Some padding */
-  cursor: pointer; /* Pointer/hand icon */
-  float: left; /* Float the buttons side by side */
+.summary-container {
+  display: flex;
+  flex-direction: row;
 }
-
-.btn-group button:not(:last-child) {
-  border-right: none; /* Prevent double borders */
+.stats {
+  background-color: grey;
+  border-radius: 10px;
+  margin: 5px;
 }
+.chart-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-evenly;
 
-/* Clear floats (clearfix hack) EXPLAIN THIS */
-.btn-group:after {
-  content: "";
-  clear: both;
-  display: table;
+  border: 1px solid black;
 }
-
-/* Add a background color on hover */
-.btn-group button:hover {
-  background-color: #6fd1e3;
-}
-
-/* .chart-container {
-  background-color: #ebeced;
-} */
-/* #dashboard-chart {
-  height: 50vh;
-} */
