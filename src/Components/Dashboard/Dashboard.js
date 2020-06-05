@@ -1,9 +1,8 @@
 import React, { Component } from "react";
-import Chart from "chart.js";
-import moment from "moment";
+// import Chart from "chart.js";
+// import moment from "moment";
 import TrendChart from "../TrendChart/TrendChart";
 import DoughnutChart from "../DoughnutChart/DoughnutChart";
-import STORE from "../../STORE";
 import "./Dashboard.css";
 
 export default class Dashboard extends Component {

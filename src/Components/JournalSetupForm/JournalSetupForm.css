@@ -22,5 +22,7 @@
 }
 
 .add-habit-btn {
+  color: red;
+  /* put this inline but this isn't working */
   display: inline-block;
 }
