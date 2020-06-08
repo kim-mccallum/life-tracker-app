@@ -14,9 +14,9 @@ export default class SignUp extends Component {
   submitHandler = (e) => {
     e.preventDefault();
     // callback prop to make the fetch - This will send the state to the backend to create a token and pass it work
-    const { userName, password, email } = this.state;
+    const { username, password, email } = this.state;
     this.props.signup({
-      userName,
+      username,
       password,
       email,
     });
@@ -28,10 +28,10 @@ export default class SignUp extends Component {
         {/* text instructions and a go back button */}
         <p>Use the form below to create a new account.</p>
         <form onSubmit={this.submitHandler}>
-          <label htmlFor="userName">Username</label>
+          <label htmlFor="username">Username</label>
           <input
             type="text"
-            name="userName"
+            name="username"
             required
             placeholder="user name"
             onChange={this.changeHandler}

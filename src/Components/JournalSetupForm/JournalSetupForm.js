@@ -6,9 +6,10 @@ import "./JournalSetupForm.css";
 export default class JournalSetupForm extends Component {
   state = {
     // form validation stuff in here LATER
-    habitNum: 1,
+    habitNums: [1],
     // put each habit as an object in array
     // PROBLEMS DISCUSSED HERE? https://www.robinwieruch.de/react-state-array-add-update-remove
+    // this will hold the user input data
     habits: [],
   };
   changeHandler = (e) => {
@@ -21,38 +22,33 @@ export default class JournalSetupForm extends Component {
   };
   // add a habit fieldset but only up to 3 habits
   addHabitHandler = (e) => {
-    if (this.state.habitNum < 3) {
-      this.setState((state) => {
-        const habits = state.habits.concat({ habit: "hello" });
-        // console.log(this.state.habitNum + 1);
-        return { habitNum: state.habitNum + 1, habits };
-      });
-      // call renderHabitInput in here so that you don't create too many (MAX 3)
-      // THIS DOESN'T ADD TO THE UI? DO I NEED TO PUT THIS IN A COMPONENT DID UPDATE LIFECYCLE METHOD?
-      this.renderHabitInput();
+    let habits = this.state.habitNums;
+    if (habits.length < 3) {
+      habits.push(1);
+      this.setState({ habitNums: habits });
     }
   };
-  // call this once initially and then every time the addHabitHandler button is clicked
-  renderHabitInput = () => {
+  renderHabitInput = (index) => {
     // A function to return JSX for each new fieldset when user adds a habit
     // include and onChange to collect data from the form
     // use the habitNum value to build the html -
-    console.log(this.state);
     const habitInput = (
       <fieldset>
         <legend>Supporting Habits</legend>
-        <label htmlFor={`habit-${this.state.habitNum}`}>Habit</label>
+        <label htmlFor={`habit-${index}`}>Habit</label>
         <input
           type="text"
-          name={`habit-${this.state.habitNum}`}
+          id={`habit-${index}`}
+          name={`habit-${index}`}
           required
           placeholder="No caffeine"
           onChange={this.changeHandler}
         ></input>
-        <label htmlFor={`habit-${this.state.habitNum}-note`}>Note</label>
+        <label htmlFor={`habit-${index}-note`}>Note</label>
         <input
           type="text"
-          name={`habit-${this.state.habitNum}-note`}
+          id={`habit-${index}-note`}
+          name={`habit-${index}-note`}
           required
           placeholder="dark chocolate excluded"
           onChange={this.changeHandler}
@@ -68,7 +64,7 @@ export default class JournalSetupForm extends Component {
         <p className="journal-setup-instructions">
           Start by specifying a target lifestyle factor that you would like to
           track then choose up to 3 habits that you believe affect or support
-          this target goal. Your targets and habits will be used to build your
+          this target factor. Your targets and habits will be used to build your
           daily journal and tracking these over time will provide insight and
           help you reach your goals!
         </p>
@@ -82,7 +78,7 @@ export default class JournalSetupForm extends Component {
               type="text"
               name="target"
               required
-              placeholder="E.g., blood pressure"
+              placeholder="E.g., resting heart rate"
               onChange={this.changeHandler}
             ></input>
             <label htmlFor="target-type">Type:</label>
@@ -92,12 +88,12 @@ export default class JournalSetupForm extends Component {
               <option value="score-1-3">Score: 1-3</option>
               <option value="score-1-5">Score: 1-5</option>
             </select>
-            <label htmlFor="target-units">Description:</label>
+            <label htmlFor="target-units">Units:</label>
             <input
               type="text"
               name="target-units"
               required
-              placeholder="mmHg"
+              placeholder="BPM"
               onChange={this.changeHandler}
             ></input>
             <label htmlFor="note">Description:</label>
@@ -109,8 +105,9 @@ export default class JournalSetupForm extends Component {
               onChange={this.changeHandler}
             ></input>
           </fieldset>
-          {/* MAKE SURE TO CALL RENDERHABIT ONCE AT FIRST TO GET ONE QUESTION */}
-          {this.renderHabitInput()}
+          {this.state.habitNums.map((item, idx) => {
+            return this.renderHabitInput(idx);
+          })}
           <FontAwesomeIcon
             className="add-habit-btn"
             icon={faPlus}

@@ -14,7 +14,7 @@ export default class App extends Component {
   state = {
     // after sign in, this will be changed with callback props
     // SET THIS BACK TO false
-    isAuth: true,
+    isAuth: false,
     error: false,
     authLoading: false,
   };
@@ -23,10 +23,53 @@ export default class App extends Component {
     // Just get the data for the fetch
     console.log(formData);
     // fetch from the api/users/signup endpoint
+    fetch("http://localhost:8000/api/users/sign-up", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (response.status === 400) {
+          throw new Error(response.error);
+        }
+        return response.json();
+      })
+      .then((json) => {
+        // probably redirect to login or dashboard with the token
+        console.log(json);
+      })
+      .catch((err) => {
+        // have a JSX <p> to render this error
+        this.setState({ error: err });
+      });
   };
 
   login = (formData) => {
     console.log(formData);
+    // fetch from the api/users/signup endpoint
+    fetch("http://localhost:8000/api/users/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (response.status === 400) {
+          throw new Error(response.error);
+        }
+        return response.json();
+      })
+      .then((json) => {
+        // probably redirect to login or dashboard with the token
+        console.log(json);
+      })
+      .catch((err) => {
+        // have a JSX <p> to render this error
+        this.setState({ error: err });
+      });
   };
 
   render() {

@@ -22,6 +22,7 @@ export default class Banner extends Component {
       <FontAwesomeIcon
         className="menu-icon"
         icon={faAlignLeft}
+        size="lg"
         onClick={this.sideNavHandler}
       />
     ) : (
@@ -37,11 +38,6 @@ export default class Banner extends Component {
           </figure>
           <h1 className="app-name">Life Logger</h1>
           {menu}
-          {/* <FontAwesomeIcon
-            className="menu-icon"
-            icon={faAlignLeft}
-            onClick={this.sideNavHandler}
-          /> */}
         </div>
         <SideNav toggleMenu={this.state.sideNavVisible} />
       </>
