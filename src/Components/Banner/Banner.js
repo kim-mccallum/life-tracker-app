@@ -39,7 +39,10 @@ export default class Banner extends Component {
           <h1 className="app-name">Life Logger</h1>
           {menu}
         </div>
-        <SideNav toggleMenu={this.state.sideNavVisible} />
+        <SideNav
+          toggleMenu={this.state.sideNavVisible}
+          logout={this.props.logout}
+        />
       </>
     );
   }

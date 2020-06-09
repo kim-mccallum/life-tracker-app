@@ -46,6 +46,7 @@ export default function SideNav(props) {
           <NavLink
             exact
             to={`/`}
+            onClick={props.logout}
             className="Nav_link"
             activeClassName="activeRoute"
             activeStyle={{ color: "teal" }}

@@ -36,9 +36,10 @@ export default class App extends Component {
         }
         return response.json();
       })
-      .then((json) => {
+      .then((user) => {
         // probably redirect to login or dashboard with the token
-        console.log(json);
+        // once the user signs up, log them in
+        this.login(formData);
       })
       .catch((err) => {
         // have a JSX <p> to render this error
@@ -62,20 +63,30 @@ export default class App extends Component {
         }
         return response.json();
       })
-      .then((json) => {
+      .then((user) => {
         // probably redirect to login or dashboard with the token
-        console.log(json);
+        // set in local storage
+        window.localStorage.setItem("token", user.token);
+        window.localStorage.setItem("user_id", user.id);
+        window.localStorage.setItem("username", user.username);
+        // update
+        this.setState({ isAuth: true });
+        console.log(user);
       })
       .catch((err) => {
         // have a JSX <p> to render this error
         this.setState({ error: err });
       });
   };
+  logout = () => {
+    this.setState({ isAuth: false });
+    window.localStorage.removeItem("token");
+  };
 
   render() {
-    let routes = (
+    let routes;
+    routes = (
       <Switch>
-        {/* A BUNCH OF SWITCH STATEMENTS TO RENDER DIFFERENT COMPONENTS ACCORDING TO THE ROUTE? */}
         <Route exact path="/" component={Landing} />
         <Route
           exact
@@ -89,16 +100,23 @@ export default class App extends Component {
             <SignUp signup={this.signup} {...routeProps} />
           )}
         />
-        <Route exact path="/journal-setup" component={JournalSetupForm} />
-        <Route exact path="/journal-entry" component={JournalEntryForm} />
-        {/* fetch the data in the dashboard component! */}
-        <Route exact path="/dashboard" component={Dashboard} />
       </Switch>
     );
+    if (this.state.isAuth) {
+      routes = (
+        <Switch>
+          <Route exact path="/" component={Landing} />
+          <Route exact path="/journal-setup" component={JournalSetupForm} />
+          <Route exact path="/journal-entry" component={JournalEntryForm} />
+          {/* fetch the data in the dashboard component! */}
+          <Route exact path="/dashboard" component={Dashboard} />
+        </Switch>
+      );
+    }
     return (
       <div className="App">
         {/* PASS ISAUTH FOR CONDITIONAL RENDERING */}
-        <Banner isAuth={this.state.isAuth} />
+        <Banner isAuth={this.state.isAuth} logout={this.logout} />
         {routes}
       </div>
     );
