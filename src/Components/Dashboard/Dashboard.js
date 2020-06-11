@@ -8,9 +8,11 @@ import "./Dashboard.css";
 export default class Dashboard extends Component {
   state = {
     activeButton: "",
+    user_id: window.localStorage.getItem("user_id"),
   };
 
   render() {
+    console.log(this.state.user_id);
     return (
       <div className="dashboard-container">
         <div className="summary-container">

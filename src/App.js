@@ -48,7 +48,7 @@ export default class App extends Component {
   };
 
   login = (formData) => {
-    console.log(formData);
+    // console.log(formData);
     // fetch from the api/users/signup endpoint
     fetch("http://localhost:8000/api/users/login", {
       method: "POST",

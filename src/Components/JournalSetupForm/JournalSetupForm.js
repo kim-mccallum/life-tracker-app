@@ -18,7 +18,40 @@ export default class JournalSetupForm extends Component {
   // THIS NEEDS TO BE PASSED BACK TO APP
   submitHandler = (e) => {
     e.preventDefault();
-    // callback prop to make the fetch - This will send the state to the backend to create a token and pass it work
+    const {
+      target_name,
+      units,
+      type,
+      description,
+      habit_1,
+      habit_2,
+      habit_3,
+    } = this.state;
+    const journalBody = {
+      user_id: window.localStorage.getItem("user_id"),
+      target_name,
+      units,
+      type,
+      description,
+      habit_1,
+      habit_2,
+      habit_3,
+    };
+    console.log(JSON.stringify(journalBody));
+    fetch("http://localhost:8000/api/journal-settings", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(journalBody),
+    })
+      .then((res) => {
+        if (!res.status === 201) {
+          throw new Error({ message: "post failed for some reason" });
+        }
+      })
+      // have an error in state and display something in a <p> for the user
+      .catch((err) => console.log(err));
   };
   // add a habit fieldset but only up to 3 habits
   addHabitHandler = (e) => {
@@ -33,22 +66,22 @@ export default class JournalSetupForm extends Component {
     // include and onChange to collect data from the form
     // use the habitNum value to build the html -
     const habitInput = (
-      <fieldset>
+      <fieldset key={`${index.toString()}`}>
         <legend>Supporting Habits</legend>
-        <label htmlFor={`habit-${index}`}>Habit</label>
+        <label htmlFor={`habit_${index + 1}`}>Habit</label>
         <input
           type="text"
-          id={`habit-${index}`}
-          name={`habit-${index}`}
+          id={`habit_${index + 1}`}
+          name={`habit_${index + 1}`}
           required
           placeholder="No caffeine"
           onChange={this.changeHandler}
         ></input>
-        <label htmlFor={`habit-${index}-note`}>Note</label>
+        <label htmlFor={`habit_${index + 1}_note`}>Note</label>
         <input
           type="text"
-          id={`habit-${index}-note`}
-          name={`habit-${index}-note`}
+          id={`habit_${index + 1}_note`}
+          name={`habit_${index + 1}_note`}
           required
           placeholder="dark chocolate excluded"
           onChange={this.changeHandler}
@@ -73,33 +106,32 @@ export default class JournalSetupForm extends Component {
             <legend>
               Health, wellness or performance factor you want to target
             </legend>
-            <label htmlFor="target">Name</label>
+            <label htmlFor="target_name">Name</label>
             <input
               type="text"
-              name="target"
+              name="target_name"
               required
               placeholder="E.g., resting heart rate"
               onChange={this.changeHandler}
             ></input>
             <label htmlFor="target-type">Type:</label>
-            <select name="target-type">
+            <select name="type" onChange={this.changeHandler}>
               <option value="numeric">Number</option>
-              <option value="binary">Yes/No</option>
-              <option value="score-1-3">Score: 1-3</option>
-              <option value="score-1-5">Score: 1-5</option>
+              <option value="quality-score">Quality score (e.g., 1-10)</option>
+              <option value="yes-no">Yes or no</option>
             </select>
-            <label htmlFor="target-units">Units:</label>
+            <label htmlFor="units">Units:</label>
             <input
               type="text"
-              name="target-units"
+              name="units"
               required
               placeholder="BPM"
               onChange={this.changeHandler}
             ></input>
-            <label htmlFor="note">Description:</label>
+            <label htmlFor="description">Description:</label>
             <input
               type="text"
-              name="note"
+              name="description"
               required
               placeholder="taken first thing in the am"
               onChange={this.changeHandler}
