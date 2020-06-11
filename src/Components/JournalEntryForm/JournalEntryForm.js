@@ -50,12 +50,17 @@ export default class JournalEntryForm extends Component {
     // make a post request here to the entries
   };
   render() {
+    // coerce habits into an array
+    let habitArr = Object.keys(this.state).filter((item) =>
+      item.includes("habit")
+    );
+    console.log("array?", habitArr);
     // render the questions
     let formQuestions;
     if (!this.state.target_name) {
       formQuestions = <h1>Still fetching your data...</h1>;
     }
-    // pull these out state
+    // pull these out of state
     formQuestions = (
       <fieldset>
         <label htmlFor={this.state.target_name}>{this.state.target_name}</label>
@@ -66,7 +71,23 @@ export default class JournalEntryForm extends Component {
           required
           onChange={this.changeHandler}
         ></input>
-        <label htmlFor={this.state.habit_1}>{this.state.habit_1}</label>
+        {habitArr.map((habit, index) => {
+          return (
+            <fieldset key={index}>
+              <p>{this.state[habit]}</p>
+              <label htmlFor={this.state[habit]}>{this.state[habit]}</label>
+              <select
+                name={this.state[habit]}
+                required
+                onChange={this.changeHandler}
+              >
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </fieldset>
+          );
+        })}
+        {/* <label htmlFor={this.state.habit_1}>{this.state.habit_1}</label>
         <select
           name={this.state.habit_1}
           required
@@ -74,8 +95,24 @@ export default class JournalEntryForm extends Component {
         >
           <option value="yes">Yes</option>
           <option value="no">No</option>
-        </select>
+        </select> */}
         {/* do some conditional logic to handle optional habits */}
+        {/* {this.state.habit_2 ? (
+          <fieldset>
+            <label htmlFor={this.state.habit_2}>{this.state.habit_2}</label>
+            <select
+              name={this.state.habit_2}
+              required
+              onChange={this.changeHandler}
+            >
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </fieldset>
+        ) : (
+          ""
+        )} */}
+
         <button type="submit">Submit entry</button>
       </fieldset>
     );

@@ -16,10 +16,12 @@ export default class Dashboard extends Component {
     return (
       <div className="dashboard-container">
         <div className="summary-container">
-          <h2 className="greeting">Welcome, [User]</h2>
+          <h2 className="greeting">
+            Welcome, {localStorage.getItem("username")}
+          </h2>
           <p>
-            You have logged on [60] days and completed all of your habits 50% of
-            the time. You weekly average [sleep] is [6 hours]
+            SUMMARY STATS: You have logged [x] days and completed all of your
+            habits [50%] of the time. You weekly average [sleep] is [6 hours]
           </p>
           <div className="stats">
             <p>Target: Sleep - 7 hour average</p>

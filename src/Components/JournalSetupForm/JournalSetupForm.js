@@ -5,19 +5,25 @@ import "./JournalSetupForm.css";
 
 export default class JournalSetupForm extends Component {
   state = {
-    // form validation stuff in here LATER
     habitNums: [1],
     // put each habit as an object in array
-    // PROBLEMS DISCUSSED HERE? https://www.robinwieruch.de/react-state-array-add-update-remove
-    // this will hold the user input data
     habits: [],
+    // form validation stuff in here LATER
+    target_name: "",
+    units: "",
+    type: "number",
+    description: "",
+    habit_1: "",
+    habit_2: "",
+    habit_3: "",
   };
   changeHandler = (e) => {
     this.setState({ [e.target.name]: e.target.value });
   };
-  // THIS NEEDS TO BE PASSED BACK TO APP
   submitHandler = (e) => {
     e.preventDefault();
+    // add some validation here?
+    //
     const {
       target_name,
       units,
@@ -41,6 +47,7 @@ export default class JournalSetupForm extends Component {
     fetch("http://localhost:8000/api/journal-settings", {
       method: "POST",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
       body: JSON.stringify(journalBody),
@@ -116,7 +123,8 @@ export default class JournalSetupForm extends Component {
             ></input>
             <label htmlFor="target-type">Type:</label>
             <select name="type" onChange={this.changeHandler}>
-              <option value="numeric">Number</option>
+              {/* make it a required field - required? */}
+              <option value="number">Number</option>
               <option value="quality-score">Quality score (e.g., 1-10)</option>
               <option value="yes-no">Yes or no</option>
             </select>
