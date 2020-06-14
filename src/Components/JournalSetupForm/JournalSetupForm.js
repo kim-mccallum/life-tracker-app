@@ -27,7 +27,8 @@ export default class JournalSetupForm extends Component {
       habit_description,
     } = this.state;
     const journalBody = {
-      user_id: window.localStorage.getItem("user_id"),
+      // change this to get this from the token
+      // user_id: window.localStorage.getItem("user_id"),
       target_name,
       units,
       type,

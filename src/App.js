@@ -23,6 +23,8 @@ export default class App extends Component {
     // Just get the data for the fetch
     console.log(JSON.stringify(formData));
     // fetch from the api/users/signup endpoint
+    // change all the endpoints to be template literals
+    //`${config.API_ENDPOINT}/auth/users`
     fetch("http://localhost:8000/api/users", {
       method: "POST",
       headers: {
@@ -39,7 +41,7 @@ export default class App extends Component {
       .then((user) => {
         // probably redirect to login or dashboard with the token
         // once the user signs up, log them in
-        console.log("okay, we made a user!!!");
+        console.log("okay, we made a user! Now we log them in");
         this.login(formData);
       })
       .catch((err) => {
@@ -50,6 +52,8 @@ export default class App extends Component {
 
   login = (formData) => {
     // console.log(formData);
+    // change all the endpoints to be template literals
+    //`${config.API_ENDPOINT}/auth/login`
     fetch("http://localhost:8000/api/auth/login", {
       method: "POST",
       headers: {
@@ -66,12 +70,10 @@ export default class App extends Component {
       .then((user) => {
         // probably redirect to login or dashboard with the token
         // set in local storage
-        window.localStorage.setItem("token", user.token);
-        window.localStorage.setItem("user_id", user.id);
-        window.localStorage.setItem("username", user.username);
+        window.localStorage.setItem("token", user.authToken);
         // update
         this.setState({ isAuth: true });
-        console.log(user);
+        console.log(user, "is logged in!");
       })
       .catch((err) => {
         // have a JSX <p> to render this error
