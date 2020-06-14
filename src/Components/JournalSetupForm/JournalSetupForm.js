@@ -1,21 +1,15 @@
 import React, { Component } from "react";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./JournalSetupForm.css";
 
 export default class JournalSetupForm extends Component {
   state = {
-    habitNums: [1],
-    // put each habit as an object in array
-    habits: [],
     // form validation stuff in here LATER
     target_name: "",
     units: "",
     type: "number",
-    description: "",
-    habit_1: "",
-    habit_2: "",
-    habit_3: "",
+    target_description: "",
+    habit_name: "",
+    habit_description: "",
   };
   changeHandler = (e) => {
     this.setState({ [e.target.name]: e.target.value });
@@ -23,25 +17,23 @@ export default class JournalSetupForm extends Component {
   submitHandler = (e) => {
     e.preventDefault();
     // add some validation here?
-    //
+    // destructure values in state
     const {
       target_name,
       units,
       type,
-      description,
-      habit_1,
-      habit_2,
-      habit_3,
+      target_description,
+      habit_name,
+      habit_description,
     } = this.state;
     const journalBody = {
       user_id: window.localStorage.getItem("user_id"),
       target_name,
       units,
       type,
-      description,
-      habit_1,
-      habit_2,
-      habit_3,
+      target_description,
+      habit_name,
+      habit_description,
     };
     console.log(JSON.stringify(journalBody));
     fetch("http://localhost:8000/api/journal-settings", {
@@ -60,53 +52,17 @@ export default class JournalSetupForm extends Component {
       // have an error in state and display something in a <p> for the user
       .catch((err) => console.log(err));
   };
-  // add a habit fieldset but only up to 3 habits
-  addHabitHandler = (e) => {
-    let habits = this.state.habitNums;
-    if (habits.length < 3) {
-      habits.push(1);
-      this.setState({ habitNums: habits });
-    }
-  };
-  renderHabitInput = (index) => {
-    // A function to return JSX for each new fieldset when user adds a habit
-    // include and onChange to collect data from the form
-    // use the habitNum value to build the html -
-    const habitInput = (
-      <fieldset key={`${index.toString()}`}>
-        <legend>Supporting Habits</legend>
-        <label htmlFor={`habit_${index + 1}`}>Habit</label>
-        <input
-          type="text"
-          id={`habit_${index + 1}`}
-          name={`habit_${index + 1}`}
-          required
-          placeholder="No caffeine"
-          onChange={this.changeHandler}
-        ></input>
-        <label htmlFor={`habit_${index + 1}_note`}>Note</label>
-        <input
-          type="text"
-          id={`habit_${index + 1}_note`}
-          name={`habit_${index + 1}_note`}
-          required
-          placeholder="dark chocolate excluded"
-          onChange={this.changeHandler}
-        ></input>
-      </fieldset>
-    );
-    return habitInput;
-  };
   render() {
+    console.log(this.state);
     return (
       <div className="journal-setup-container">
         <h2>Log Setup</h2>
         <p className="journal-setup-instructions">
           Start by specifying a target lifestyle factor that you would like to
-          track then choose up to 3 habits that you believe affect or support
-          this target factor. Your targets and habits will be used to build your
-          daily journal and tracking these over time will provide insight and
-          help you reach your goals!
+          track then choose one key habit that you believe affect or support
+          this target factor. Your target lifestyle factor and habit will be
+          used to build your daily journal. By tracking these over time, you may
+          uncover insight to help you reach your goals!
         </p>
         <form className="journal-setup-form" onSubmit={this.submitHandler}>
           <fieldset>
@@ -121,7 +77,7 @@ export default class JournalSetupForm extends Component {
               placeholder="E.g., resting heart rate"
               onChange={this.changeHandler}
             ></input>
-            <label htmlFor="target-type">Type:</label>
+            <label htmlFor="type">Type:</label>
             <select name="type" onChange={this.changeHandler}>
               {/* make it a required field - required? */}
               <option value="number">Number</option>
@@ -136,24 +92,35 @@ export default class JournalSetupForm extends Component {
               placeholder="BPM"
               onChange={this.changeHandler}
             ></input>
-            <label htmlFor="description">Description:</label>
+            <label htmlFor="target_description">Description:</label>
             <input
               type="text"
-              name="description"
+              name="target_description"
               required
               placeholder="taken first thing in the am"
               onChange={this.changeHandler}
             ></input>
           </fieldset>
-          {this.state.habitNums.map((item, idx) => {
-            return this.renderHabitInput(idx);
-          })}
-          <FontAwesomeIcon
-            className="add-habit-btn"
-            icon={faPlus}
-            size="lg"
-            onClick={this.addHabitHandler}
-          />
+          <fieldset>
+            <legend>Supporting Habit</legend>
+            <label htmlFor="habit_name">Habit</label>
+            <input
+              type="text"
+              id="habit_name"
+              name="habit_name"
+              required
+              placeholder="No caffeine"
+              onChange={this.changeHandler}
+            ></input>
+            <label htmlFor="habit_description">Note</label>
+            <input
+              type="text"
+              id="habit_description"
+              name="habit_description"
+              placeholder="dark chocolate excluded ofcourse"
+              onChange={this.changeHandler}
+            ></input>
+          </fieldset>
           <button type="submit">Create Daily Log</button>
         </form>
       </div>

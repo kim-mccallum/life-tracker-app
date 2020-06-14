@@ -21,9 +21,9 @@ export default class App extends Component {
   // SIGN UP FUNCTION - TO BE PASSED TO THE SIGNUP COMPONENT - THIS IS THE FETCH TO THE SIGNUP ENDPOINT
   signup = (formData) => {
     // Just get the data for the fetch
-    console.log(formData);
+    console.log(JSON.stringify(formData));
     // fetch from the api/users/signup endpoint
-    fetch("http://localhost:8000/api/users/sign-up", {
+    fetch("http://localhost:8000/api/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,6 +39,7 @@ export default class App extends Component {
       .then((user) => {
         // probably redirect to login or dashboard with the token
         // once the user signs up, log them in
+        console.log("okay, we made a user!!!");
         this.login(formData);
       })
       .catch((err) => {
@@ -49,8 +50,7 @@ export default class App extends Component {
 
   login = (formData) => {
     // console.log(formData);
-    // fetch from the api/users/signup endpoint
-    fetch("http://localhost:8000/api/users/login", {
+    fetch("http://localhost:8000/api/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
