@@ -8,12 +8,16 @@ export default class JournalEntryForm extends Component {
   };
   // Fetch the data to build the journal entry form
   componentDidMount() {
-    const userid = localStorage.getItem("user_id");
-    console.log(userid);
+    // const userid = localStorage.getItem("user_id");
+    // console.log(userid);
     // fetch from the api/entries endpoint with the user_id parameter
-    fetch(`http://localhost:8000/api/journal-settings/${userid}`, {
-      // you can't set a body in a GET request
+    // fetch(`http://localhost:8000/api/journal-settings/${userid}`, {
+    fetch(`http://localhost:8000/api/journal-settings/`, {
       method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
     })
       .then((response) => {
         if (response.status === 400) {
@@ -26,7 +30,7 @@ export default class JournalEntryForm extends Component {
         // before the response, the data should be null
         console.log(json);
         const {
-          journal_id,
+          id,
           target_name,
           type,
           units,
@@ -35,7 +39,7 @@ export default class JournalEntryForm extends Component {
           habit_description,
         } = json;
         this.setState({
-          journal_id,
+          id,
           target_name,
           type,
           units,
@@ -58,10 +62,9 @@ export default class JournalEntryForm extends Component {
   submitHandler = (e) => {
     e.preventDefault();
     // make a post request here to the entries
-    let { journal_id, date, target_value, habit_value } = this.state;
-    journal_id = journal_id.toString();
+    let { id, date, target_value, habit_value } = this.state;
+    const journal_id = id.toString();
     const entryBody = {
-      user_id: window.localStorage.getItem("user_id"),
       journal_id,
       date,
       target_value,
