@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import config from "../../config";
 import "./JournalSetupForm.css";
 
 export default class JournalSetupForm extends Component {
@@ -37,7 +38,8 @@ export default class JournalSetupForm extends Component {
       habit_description,
     };
     console.log(JSON.stringify(journalBody));
-    fetch("http://localhost:8000/api/journal-settings", {
+    // fetch("http://localhost:8000/api/journal-settings", {
+    fetch(`${config.API_ENDPOINT}/journal-settings`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

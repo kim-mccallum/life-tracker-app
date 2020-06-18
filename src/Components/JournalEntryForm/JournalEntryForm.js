@@ -1,18 +1,19 @@
 import React, { Component } from "react";
+import config from "../../config";
+import DatePicker from "react-datepicker";
+// import moment from "moment";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 export default class JournalEntryForm extends Component {
   state = {
-    date: "",
+    date: new Date(),
     target_value: "",
-    habit_value: "",
+    habit_value: "1",
   };
   // Fetch the data to build the journal entry form
   componentDidMount() {
-    // const userid = localStorage.getItem("user_id");
-    // console.log(userid);
-    // fetch from the api/entries endpoint with the user_id parameter
-    // fetch(`http://localhost:8000/api/journal-settings/${userid}`, {
-    fetch(`http://localhost:8000/api/journal-settings/`, {
+    fetch(`${config.API_ENDPOINT}/journal-settings`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -59,6 +60,11 @@ export default class JournalEntryForm extends Component {
     console.log(e);
     this.setState({ [e.target.name]: e.target.value });
   };
+  dateHandler = (selectedDate) => {
+    this.setState({
+      date: selectedDate,
+    });
+  };
   submitHandler = (e) => {
     e.preventDefault();
     // make a post request here to the entries
@@ -71,7 +77,7 @@ export default class JournalEntryForm extends Component {
       habit_value,
     };
     console.log(JSON.stringify(entryBody));
-    fetch("http://localhost:8000/api/entries", {
+    fetch(`${config.API_ENDPOINT}/entries`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -118,7 +124,13 @@ export default class JournalEntryForm extends Component {
     return (
       <form className="journal-entry-form" onSubmit={this.submitHandler}>
         <h2>Make a journal entry</h2>
-        <p>PLACEHOLDER FOR DATE PICKER</p>
+        <label htmlFor="date">Entry Date:</label>
+        <DatePicker
+          name="date"
+          className="date-selector"
+          selected={this.state.date}
+          onChange={this.dateHandler}
+        />
         {formQuestions}
       </form>
     );

@@ -14,7 +14,7 @@ const dateArray = (dates) => {
   // get first and last dates
   const dateStart = momentDates[0];
   const dateEnd = momentDates[momentDates.length - 1];
-  console.log(dateStart, dateEnd);
+  // console.log(dateStart, dateEnd);
   // subtract start from end and while the difference is positive, check each date to see if it exists
   while (dateEnd.diff(dateStart, "days") >= 0) {
     days.push(dateStart.format("L"));
@@ -58,7 +58,7 @@ export default class Dashboard extends Component {
     });
   }
   render() {
-    console.log(dateArray(STORE.dates));
+    // console.log(dateArray(STORE.dates));
     return (
       <div className="doughnut-container">
         <canvas id="dashboard-pie-chart"></canvas>

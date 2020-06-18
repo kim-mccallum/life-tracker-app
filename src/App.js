@@ -7,6 +7,7 @@ import Login from "./Components/Login/Login";
 import SignUp from "./Components/SignUp/SignUp";
 import JournalSetupForm from "./Components/JournalSetupForm/JournalSetupForm";
 import JournalEntryForm from "./Components/JournalEntryForm/JournalEntryForm";
+import config from "./config";
 import "./App.css";
 
 export default class App extends Component {
@@ -17,15 +18,14 @@ export default class App extends Component {
     isAuth: false,
     error: false,
     authLoading: false,
+    username: "",
   };
   // SIGN UP FUNCTION - TO BE PASSED TO THE SIGNUP COMPONENT - THIS IS THE FETCH TO THE SIGNUP ENDPOINT
   signup = (formData) => {
     // Just get the data for the fetch
     console.log(JSON.stringify(formData));
-    // fetch from the api/users/signup endpoint
-    // change all the endpoints to be template literals
-    //`${config.API_ENDPOINT}/auth/users`
-    fetch("http://localhost:8000/api/users", {
+    // fetch("http://localhost:8000/api/users", {
+    fetch(`${config.API_ENDPOINT}/auth/users`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -51,10 +51,7 @@ export default class App extends Component {
   };
 
   login = (formData) => {
-    // console.log(formData);
-    // change all the endpoints to be template literals
-    //`${config.API_ENDPOINT}/auth/login`
-    fetch("http://localhost:8000/api/auth/login", {
+    fetch(`${config.API_ENDPOINT}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -72,8 +69,8 @@ export default class App extends Component {
         // set in local storage
         window.localStorage.setItem("token", user.authToken);
         // update
-        this.setState({ isAuth: true });
-        console.log(user, "is logged in!");
+        this.setState({ isAuth: true, username: user.username });
+        console.log(user.username, "is logged in!");
       })
       .catch((err) => {
         // have a JSX <p> to render this error

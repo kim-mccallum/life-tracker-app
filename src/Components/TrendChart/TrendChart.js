@@ -6,38 +6,45 @@ import STORE from "../../STORE";
 export default class Dashboard extends Component {
   state = {
     activeButton: "",
+    trendData: [],
   };
-  // FETCH DATA IN HERE
-  componentDidMount() {
+
+  componentDidUpdate(prevProps) {
+    console.log(this.props);
+    // transform data
+    const trendData = this.transformData();
+    console.log(trendData);
+
     //  grab the canvas and getContext
     let ctx = document.getElementById("dashboard-chart").getContext("2d");
+
+    // create datasets array
+    let datasetsArray = [];
+    Object.keys(trendData).map((key, index) => {
+      if (index === 1) {
+        datasetsArray.push({
+          label: key,
+          data: trendData[key],
+          type: "line",
+          yAxisID: "A",
+          backgroundColor: "#EBCCD1",
+        });
+      } else {
+        datasetsArray.push({
+          label: key,
+          data: trendData[key],
+          yAxisID: "B",
+          backgroundColor: "#D6E9C6",
+        });
+      }
+    });
     let myChart = new Chart(ctx, {
       type: "bar",
       data: {
         // REPLACE WITH STATE
         // convert dates to short format
-        labels: STORE.dates.map((dt) => moment(dt).format("L")),
-        datasets: [
-          {
-            label: "Exercise",
-            data: STORE.exercise,
-            yAxisID: "B",
-            backgroundColor: "#D6E9C6", // green
-          },
-          {
-            label: "Caffeine",
-            data: STORE.caffeine,
-            yAxisID: "B",
-            backgroundColor: "#FAEBCC", // yellow
-          },
-          {
-            label: "Sleep",
-            data: STORE.sleep,
-            type: "line",
-            yAxisID: "A",
-            backgroundColor: "#EBCCD1", // red
-          },
-        ],
+        labels: trendData.dates.map((dt) => moment(dt).format("L")),
+        datasets: datasetsArray,
       },
       options: {
         scales: {
@@ -63,7 +70,29 @@ export default class Dashboard extends Component {
       },
     });
   }
+  transformData = () => {
+    let dataObject = {
+      dates: [],
+    };
+    // forEach over this.props.data - {date: [date1, date2, date3], meditation: [0,1, 1],  sleep: [5, 7, 6]}
+    // console.log(this.props);
+    let firstEntry = this.props.data[0];
+    console.log(firstEntry);
+
+    dataObject[firstEntry.target_name] = [];
+    dataObject[firstEntry.habit_name] = [];
+
+    this.props.data.forEach((entry) => {
+      dataObject.dates.push(entry.date);
+      // create the key value pair
+      dataObject[entry.target_name].push(parseInt(entry.target_value));
+      dataObject[entry.habit_name].push(entry.habit_value);
+    });
+
+    return dataObject;
+  };
   render() {
+    // console.log(this.props);
     return (
       <div className="trendchart-container">
         <canvas id="dashboard-chart" width="600" height="300"></canvas>
