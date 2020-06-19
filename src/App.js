@@ -107,8 +107,16 @@ export default class App extends Component {
           <Route exact path="/" component={Landing} />
           <Route exact path="/journal-setup" component={JournalSetupForm} />
           <Route exact path="/journal-entry" component={JournalEntryForm} />
-          {/* fetch the data in the dashboard component! */}
-          <Route exact path="/dashboard" component={Dashboard} />
+          <Route
+            exact
+            path="/dashboard"
+            component={(routeProps) => (
+              <Dashboard
+                routeProps={routeProps}
+                username={this.state.username}
+              />
+            )}
+          />
         </Switch>
       );
     }

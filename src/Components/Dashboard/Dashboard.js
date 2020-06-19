@@ -54,7 +54,7 @@ export default class Dashboard extends Component {
         <div className="summary-container">
           <h2 className="greeting">
             {/* FIX THIS */}
-            Welcome, {localStorage.getItem("username")}
+            Welcome, {this.props.username}
           </h2>
           <p>
             SUMMARY STATS: You have logged [x] days and your habit [50%] of the
